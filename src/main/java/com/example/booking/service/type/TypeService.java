@@ -1,4 +1,4 @@
-package com.example.booking.service.typeService;
+package com.example.booking.service.type;
 
 import com.example.booking.repository.TypeRepository;
 import com.example.booking.service.response.SelectOptionResponse;

@@ -1,7 +1,7 @@
 package com.example.booking.controller;
 
-import com.example.booking.service.typeService.CategoryService;
-import com.example.booking.service.typeService.TypeService;
+import com.example.booking.service.type.CategoryService;
+import com.example.booking.service.type.TypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
