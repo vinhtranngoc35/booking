@@ -22,7 +22,20 @@ public class Room {
 
     private BigDecimal price;
 
+    private BigDecimal priceWeekend;
+
+    @Column(columnDefinition = "long_text")
     private String description;
+
+    private Integer capacityAdult;
+
+
+    private Integer capacityChild;
+
+    private Integer amountBed;
+
+    @OneToOne
+    private File poster;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
@@ -30,4 +43,10 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<RoomCategory> roomCategories;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomService> roomServices;
+
+    @OneToMany(mappedBy = "room")
+    private List<File> files;
 }

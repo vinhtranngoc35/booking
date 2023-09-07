@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table(name = "room_categories")
+@Table(name = "room_services")
 @Entity
 @Data
 @NoArgsConstructor
-public class RoomCategory {
+public class RoomService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +22,10 @@ public class RoomCategory {
 
 
     @ManyToOne
-    private Category category;
+    private Service service;
 
-    public RoomCategory(Room room, Category category) {
+    public RoomService(Room room, Service service) {
         this.room = room;
-        this.category = category;
+        this.service = service;
     }
 }

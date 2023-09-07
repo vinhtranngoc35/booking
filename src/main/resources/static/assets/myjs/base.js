@@ -87,7 +87,6 @@ document.addEventListener('invalid', (function () {
 })(), true);
 
 function validateInput(inputProp, inputElement, index) {
-    console.log('demo')
     const { validate, messageRequired, message, messageCustom } = inputProp;
     const error = document.getElementsByClassName('error')[index];
     const value = inputElement.value.trim();

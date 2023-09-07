@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "services")
 @Data
 @NoArgsConstructor
-public class Category {
-
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +21,5 @@ public class Category {
 
     private String svg;
 
-    @OneToMany(mappedBy = "category")
-    private List<RoomCategory> roomCategories;
-
-    public Category(Long id) {
-        this.id = id;
-    }
-
-    public Category(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    private BigDecimal price;
 }

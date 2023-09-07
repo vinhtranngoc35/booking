@@ -4,6 +4,7 @@ import com.example.booking.service.room.RoomService;
 import com.example.booking.service.room.request.RoomSaveRequest;
 import com.example.booking.service.room.response.RoomDetailResponse;
 import com.example.booking.service.room.response.RoomListResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class RoomRestController {
         return new ResponseEntity<>(roomService.getRooms(pageable), HttpStatus.OK);
     }
     @PutMapping("{id}")
-    public ResponseEntity<?> updateRoom(@RequestBody RoomSaveRequest request, @PathVariable Long id){
+    public ResponseEntity<?> updateRoom(@RequestBody @Valid RoomSaveRequest request, @PathVariable Long id){
         roomService.update(request,id);
         return ResponseEntity.ok().build();
     }

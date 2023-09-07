@@ -20,6 +20,10 @@ roomForm.onsubmit = async (e) => {
             .map(e => e.value),
         id: roomSelected.id
     }
+    if(data.idCategories.length === 0){
+        alert('chon di');
+        return;
+    }
 
     let message = "Created"
     if (roomSelected.id) {
