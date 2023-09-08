@@ -1,4 +1,4 @@
-package com.example.booking.service.request;
+package com.example.booking.service.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

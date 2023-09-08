@@ -1,11 +1,8 @@
 package com.example.booking.service.room.request;
 
-import com.example.booking.service.request.SelectOptionRequest;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.example.booking.service.dto.request.SelectOptionRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 
 import java.util.List;
 

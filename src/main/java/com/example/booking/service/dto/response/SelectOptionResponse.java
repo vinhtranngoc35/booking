@@ -1,4 +1,4 @@
-package com.example.booking.service.response;
+package com.example.booking.service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

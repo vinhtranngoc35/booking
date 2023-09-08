@@ -1,8 +1,7 @@
 package com.example.booking.controller.rest;
 
 import com.example.booking.repository.CategoryRepository;
-import com.example.booking.repository.TypeRepository;
-import com.example.booking.service.response.SelectOptionResponse;
+import com.example.booking.service.dto.response.SelectOptionResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

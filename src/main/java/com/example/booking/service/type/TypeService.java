@@ -1,7 +1,7 @@
 package com.example.booking.service.type;
 
 import com.example.booking.repository.TypeRepository;
-import com.example.booking.service.response.SelectOptionResponse;
+import com.example.booking.service.dto.response.SelectOptionResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
