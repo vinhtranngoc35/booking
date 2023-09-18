@@ -3,14 +3,17 @@ package com.example.booking.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "rooms")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Room {
 
@@ -24,7 +27,6 @@ public class Room {
 
     private BigDecimal priceWeekend;
 
-    @Column(columnDefinition = "long_text")
     private String description;
 
     private Integer capacityAdult;
@@ -37,16 +39,21 @@ public class Room {
     @OneToOne
     private File poster;
 
-    @ManyToOne
+    //
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
     private Type type;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<RoomCategory> roomCategories;
 
-    @OneToMany(mappedBy = "room")
-    private List<RoomService> roomServices;
+
 
     @OneToMany(mappedBy = "room")
     private List<File> files;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

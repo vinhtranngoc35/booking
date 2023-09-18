@@ -18,6 +18,10 @@ public class TypeRestController {
 
     @GetMapping
     public List<SelectOptionResponse> getSelectOption(){
-        return typeRepository.findAll().stream().map(type -> new SelectOptionResponse(type.getId().toString(), type.getName())).collect(Collectors.toList());
+        return typeRepository.findAll()
+                .stream()
+                .map(type ->
+                        new SelectOptionResponse(type.getId().toString(), type.getName()))
+                .collect(Collectors.toList());
     }
 }

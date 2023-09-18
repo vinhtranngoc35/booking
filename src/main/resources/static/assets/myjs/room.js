@@ -18,23 +18,28 @@ roomForm.onsubmit = async (e) => {
         idCategories: Array.from(eCheckBoxCategories)
             .filter(e => e.checked)
             .map(e => e.value),
-        id: roomSelected.id
+        id: roomSelected.id,
+        files: idImages.map(e => {
+            return {
+                id: e
+            }
+        })
     }
-    if(data.idCategories.length === 0){
+    if (data.idCategories.length === 0) {
         alert('chon di');
         return;
     }
 
     let message = "Created"
     if (roomSelected.id) {
-        await editRoom(data);
+        await myFetch({data, url: '/api/rooms/' + data.id, method: 'PUT'})
         message = "Edited"
     } else {
-        await createRoom(data)
+        await myFetch({data, url: '/api/rooms', method: 'POST'})
     }
 
     alert(message);
-    renderTable();
+    await renderTable();
     $('#staticBackdrop').modal('hide');
 
 }
@@ -42,6 +47,7 @@ roomForm.onsubmit = async (e) => {
 function getDataFromForm(form) {
     // event.preventDefault()
     const data = new FormData(form);
+
     return Object.fromEntries(data.entries())
 }
 
@@ -58,7 +64,7 @@ async function getTypesSelectOption() {
 window.onload = async () => {
     categories = await getCategoriesSelectOption();
     types = await getTypesSelectOption();
-    renderTable()
+    await renderTable()
 
     renderForm(formBody, getDataInput());
 }
@@ -170,12 +176,12 @@ async function renderTable() {
     const pageable = await getRooms();
     rooms = pageable.content;
     renderTBody(rooms);
-    addEventEditAndDelete();
+    await addEventEditAndDelete();
 }
 
-const addEventEditAndDelete = () => {
+const addEventEditAndDelete = async () => {
     const eEdits = tBody.querySelectorAll('.edit');
-    const eDeletes = tBody.querySelectorAll('.delete');
+    //const eDeletes = tBody.querySelectorAll('.delete');
     for (let i = 0; i < eEdits.length; i++) {
         console.log(eEdits[i].id)
         eEdits[i].addEventListener('click', () => {
@@ -185,6 +191,17 @@ const addEventEditAndDelete = () => {
 }
 
 function clearForm() {
+    idImages = [];
+
+    const imgEle = document.getElementById("images");
+    const imageOld = imgEle.querySelectorAll('img');
+    for (let i = 0; i < imageOld.length; i++) {
+        imgEle.removeChild(imageOld[i])
+    }
+    const avatarDefault = document.createElement('img');
+    avatarDefault.src = '../assets/img/avatars/1.png';
+    avatarDefault.classList.add('avatar-preview');
+    imgEle.append(avatarDefault)
     roomForm.reset();
     roomSelected = {};
 }
@@ -195,24 +212,83 @@ function showCreate() {
     renderForm(formBody, getDataInput())
 }
 
-async function editRoom(data) {
-    const res = await fetch('/api/rooms/' + data.id, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
+let idImages = [];
+
+async function previewImage(evt) {
+    if(evt.target.files.length === 0){
+        return;
+    }
+    idImages = [];
+
+    const imgEle = document.getElementById("images");
+    const imageOld = imgEle.querySelectorAll('img');
+    for (let i = 0; i < imageOld.length; i++) {
+        imgEle.removeChild(imageOld[i])
+    }
+
+    // When the image is loaded, update the img element's src
+    const files = evt.target.files
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        await previewImageFile(file, i);
+
+        if (file) {
+            // Create a new FormData object and append the selected file
+            const formData = new FormData();
+            formData.append("avatar", file);
+            formData.append("fileType", "image");
+            try {
+                // Make a POST request to upload the image
+                const response = await fetch("/api/files", {
+                    method: "POST",
+                    body: formData,
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result) {
+                        const id = result.id;
+                        idImages.push(id);
+
+                    } else {
+                        console.error('Image ID not found in the response.');
+                    }
+                } else {
+                    // Handle non-OK response (e.g., show an error message)
+                    console.error('Failed to upload image:', response.statusText);
+                }
+            } catch (error) {
+                // Handle network or other errors
+                console.error('An error occurred:', error);
+            }
+        }
+    }
 }
 
-async function createRoom(data) {
-    const res = await fetch('/api/rooms', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
+async function previewImageFile(file) {
+    const reader = new FileReader();
+    reader.onload = function () {
+        const imgEle = document.getElementById("images");
+        const img = document.createElement('img');
+        img.src =reader.result;
+        img.classList.add('avatar-preview');
+        imgEle.append(img);
+
+        // imgEle.ap.innerHTML = `
+        //          <img class="avatar-preview" src="${urlImage}">
+        //             <span class="icon-preview-delete">
+        //               <i class="fa-solid fa-delete-left" onclick="onRemoveImage(index)"></i>
+        //            </span>
+        //     `;
+        // imgEle.append(spanAPItemContainer)
+
+    };
+    reader.readAsDataURL(file);
+
 }
 
-
+function onRemoveImage(index) {
+    idImages = idImages.filter((e, i) => i !== index);
+    const imgEle = document.getElementById("file");
+    const imageOld = imgEle.querySelectorAll('img');
+    imgEle.removeChild(imageOld[index]);
+}

@@ -1,5 +1,3 @@
-
-
 function createInput(props) {
     console.log(props)
     return `<div class="${props.classContainer || ''}">
@@ -17,9 +15,9 @@ function createInput(props) {
 function createSelect(props) {
     let optionsStr = "";
     props.options.forEach(e => {
-        if(e.value == props.value){
+        if (e.value == props.value) {
             optionsStr += `<option value="${e.value}" selected>${e.name}</option>`;
-        }else{
+        } else {
             optionsStr += `<option value="${e.value}">${e.name}</option>`;
         }
 
@@ -45,10 +43,6 @@ function createFieldForm(props) {
     }
     return createInput(props);
 }
-
-
-
-
 
 
 const onFocus = (formBody, index) => {
@@ -79,6 +73,7 @@ function renderForm(formBody, inputs) {
     }
 
 }
+
 document.addEventListener('invalid', (function () {
     return function (e) {
         e.preventDefault(); // chặn popup của html5
@@ -87,10 +82,9 @@ document.addEventListener('invalid', (function () {
 })(), true);
 
 function validateInput(inputProp, inputElement, index) {
-    const { validate, messageRequired, message, messageCustom } = inputProp;
+    const {validate, messageRequired, message, messageCustom} = inputProp;
     const error = document.getElementsByClassName('error')[index];
     const value = inputElement.value.trim();
-
 
 
     if (inputElement.required && value === '') {
@@ -98,11 +92,12 @@ function validateInput(inputProp, inputElement, index) {
         return;
     }
     let errormessage = message;
-    if (validate && !validate(value)){
+    if (validate && !validate(value)) {
         errormessage = messageCustom;
     }
     error.innerHTML = errormessage;
 }
+
 function getDataFromForm(event, form) {
     event.preventDefault()
     const data = new FormData(form);
@@ -141,7 +136,7 @@ const inputs = [
         type: "select",
         require: true,
         message: "Gender invalid",
-        options: [{ value: 1, name: 'Male' }, { value: 2, name: 'Female' }]
+        options: [{value: 1, name: 'Male'}, {value: 2, name: 'Female'}]
     }
 ];
 
@@ -151,9 +146,20 @@ function getDataFromForm(form) {
     return Object.fromEntries(data.entries())
 }
 
-function onChangeSelect2(selector, value){
+function onChangeSelect2(selector, value) {
     const element = $(selector);
     element.val(value);
     element.change();
+}
+
+async function myFetch(props) {
+    const {url, data, method} = props;
+    return await fetch(url, {
+        method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
 }
 

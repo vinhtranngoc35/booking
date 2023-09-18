@@ -2,7 +2,11 @@ package com.example.booking.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +14,8 @@ import java.util.List;
 
 @Table
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Bill {
 
@@ -28,7 +33,7 @@ public class Bill {
 
     private LocalDateTime dateOfDeparture;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Customer customer;
 
     @OneToMany(mappedBy = "bill")

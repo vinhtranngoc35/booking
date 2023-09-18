@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "types")
 @Data
@@ -16,5 +18,7 @@ public class Type {
     private Long id;
 
     private String name;
+    @OneToMany(mappedBy = "type")
+    private List<Room> rooms;
 
 }

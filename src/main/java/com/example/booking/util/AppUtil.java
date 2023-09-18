@@ -10,12 +10,14 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+
 public class AppUtil {
     public static final ModelMapper mapper;
 
     static {
         mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        mapper.getConfiguration().setSkipNullEnabled(true);
         Converter<String, LocalDate> toStringDate = new AbstractConverter<>() {
             @Override
             protected LocalDate convert(String source) {

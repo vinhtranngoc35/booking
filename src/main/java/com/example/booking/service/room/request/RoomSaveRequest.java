@@ -18,5 +18,7 @@ public class RoomSaveRequest {
 
     private List<String> idCategories;
 
+    private List<SelectOptionRequest> files;
+
     private SelectOptionRequest type;
 }

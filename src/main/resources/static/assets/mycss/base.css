@@ -7,3 +7,10 @@
 .input-custom:invalid[focused="true"]~span {
     display: block;
 }
+
+.avatar-preview{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 1em;
+}

@@ -3,6 +3,8 @@ package com.example.booking.controller.rest;
 import com.example.booking.repository.CategoryRepository;
 import com.example.booking.service.dto.response.SelectOptionResponse;
 import lombok.AllArgsConstructor;
+import org.hibernate.service.spi.InjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @RequestMapping("api/categories")
 @AllArgsConstructor
 public class CategoryRestController {
+
     private final CategoryRepository categoryRepository;
 
     @GetMapping

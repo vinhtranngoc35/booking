@@ -4,8 +4,10 @@ import com.example.booking.domain.Category;
 import com.example.booking.domain.Room;
 import com.example.booking.domain.RoomCategory;
 import com.example.booking.domain.Type;
+import com.example.booking.repository.FileRepository;
 import com.example.booking.repository.RoomCategoryRepository;
 import com.example.booking.repository.RoomRepository;
+import com.example.booking.service.dto.request.SelectOptionRequest;
 import com.example.booking.service.room.request.RoomSaveRequest;
 import com.example.booking.service.room.response.RoomDetailResponse;
 import com.example.booking.service.room.response.RoomListResponse;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -26,10 +29,19 @@ public class RoomService {
 
     private final RoomCategoryRepository roomCategoryRepository;
 
+    private final FileRepository fileRepository;
+
+
     public void create(RoomSaveRequest request){
         var room = AppUtil.mapper.map(request, Room.class);
+
         room = roomRepository.save(room);
-//        var roomCategories = new ArrayList<RoomCategory>();
+        var files = fileRepository.findAllById(request.getFiles().stream().map(SelectOptionRequest::getId).collect(Collectors.toList()));
+        for (var file: files) {
+            file.setRoom(room);
+        }
+        fileRepository.saveAll(files);
+////        var roomCategories = new ArrayList<RoomCategory>();
 //        for (var id: request.getIdCategories()) {
 //            roomCategories.add(new RoomCategory(room, new Category(Long.valueOf(id))));
 //        }

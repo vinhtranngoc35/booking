@@ -14,8 +14,7 @@ public class RoomService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Room room;
+
 
     @Enumerated(EnumType.STRING)
     private EPriority priority;
@@ -24,8 +23,4 @@ public class RoomService {
     @ManyToOne
     private Service service;
 
-    public RoomService(Room room, Service service) {
-        this.room = room;
-        this.service = service;
-    }
 }
